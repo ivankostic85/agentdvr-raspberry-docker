@@ -4,6 +4,14 @@ FROM arm32v7/debian:buster
 ARG DEBIAN_FRONTEND=noninteractive
 ARG TZ=Europe/Paris
 
+COPY ./scripts/download-opencv.sh /scripts/download-opencv.sh
+COPY ./scripts/install-deps.sh /scripts/install-deps.sh
+COPY ./scripts/build-opencv.sh /scripts/build-opencv.sh
+RUN ls -la /scripts
+
+RUN cd /scripts && chmod +x *.sh
+RUN ./download-opencv.sh
+RUN ./install-deps.sh
 
 RUN apt-get purge -y libreoffice*
 RUN apt-get clean
@@ -38,13 +46,6 @@ RUN mkdir /dotnet
 RUN tar zxf aspnetcore-runtime-3.1.13-linux-arm.tar.gz -C /dotnet
 
 RUN mkdir /scripts
-COPY ./scripts/download-opencv.sh /scripts/download-opencv.sh
-COPY ./scripts/install-deps.sh /scripts/install-deps.sh
-COPY ./scripts/build-opencv.sh /scripts/build-opencv.sh
-
-RUN cd /scripts && chmod +x *.sh
-RUN ./download-opencv.sh
-RUN ./install-deps.sh
 RUN ./build-opencv.sh
 RUN cd /opencv/opencv-4.1.2/build && make install
 # COPY ./ocvbuild /opencv
