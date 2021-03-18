@@ -10,8 +10,8 @@ COPY ./scripts/build-opencv.sh /scripts/build-opencv.sh
 RUN ls -la /scripts
 
 RUN cd /scripts && chmod +x *.sh
-RUN ./download-opencv.sh
-RUN ./install-deps.sh
+RUN /scripts/download-opencv.sh
+RUN /scripts/install-deps.sh
 
 RUN apt-get purge -y libreoffice*
 RUN apt-get clean
