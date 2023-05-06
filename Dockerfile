@@ -4,6 +4,8 @@ FROM arm32v7/debian:buster
 ARG DEBIAN_FRONTEND=noninteractive
 ARG TZ=Europe/Paris
 
+RUN apt-get update && apt-get install -y unzip wget
+
 COPY ./scripts/download-opencv.sh /scripts/download-opencv.sh
 COPY ./scripts/install-deps.sh /scripts/install-deps.sh
 COPY ./scripts/build-opencv.sh /scripts/build-opencv.sh
@@ -19,7 +21,7 @@ RUN apt-get update
 RUN apt-get upgrade -y
 RUN apt-get dist-upgrade -y
 RUN apt-get autoremove -y
-RUN apt-get update && apt-get install -y unzip wget libtbb-dev libc6-dev \
+RUN apt-get update && apt-get install -y libtbb-dev libc6-dev \
     multiarch-support gss-ntlmssp software-properties-common apt-utils \
     gpg-agent ca-certificates ffmpeg
 RUN apt-get install -y devscripts debhelper cmake libldap2-dev libgtkmm-3.0-dev libarchive-dev \
